@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, make_response
+from flask import Flask, make_response, jsonify
 from flask_migrate import Migrate
 
 from models import db, Hero
@@ -16,6 +16,20 @@ db.init_app(app)
 @app.route('/')
 def home():
     return '<h2>Welcome!<h2>'
+
+@app.route('/heroes', methods=['GET'])
+def get_heroes():
+
+    heroes = Hero.query.all()
+    heroes_data = [
+        {
+            "id": hero.id,
+            "name": hero.name,
+            "super_name": hero.super_name
+        }
+        for hero in heroes
+    ]
+    return jsonify(heroes_data)
 
 
 if __name__ == '__main__':
