@@ -58,5 +58,19 @@ def get_hero_by_id(id):
     return jsonify(hero_data)
 
 
+@app.route('/powers', methods=['GET'])
+def get_powers():
+    powers = Power.query.all()
+    powers_data = [
+        {
+            "id": power.id,
+            "name": power.name,
+            "description": power.description
+        }
+        for power in powers
+    ]
+    return jsonify(powers_data)
+
+
 if __name__ == '__main__':
     app.run(port=5555)
